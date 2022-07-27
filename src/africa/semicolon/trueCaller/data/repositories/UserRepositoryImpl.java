@@ -2,26 +2,28 @@ package africa.semicolon.trueCaller.data.repositories;
 
 import africa.semicolon.trueCaller.data.models.Contact;
 import africa.semicolon.trueCaller.data.models.User;
+import africa.semicolon.trueCaller.services.UserExistsException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository{
 
-    private ArrayList<ContactRepositoryImpl> contacts = new ArrayList<>();
-    private int counter = 0;
+
+    private int counter;
     private ArrayList<User> users = new ArrayList<>();
 
 
     @Override
     public User saveUser(User user) {
-        var userId = user.getId();
+       // var userId = user.getId();
         for(User value : users){
             if(value.getId() == user.getId() ){
-                user.setFirstName(user.getFirstName());
-                user.setLastName(user.getFirstName());
-                user.setEmail(user.getEmail());
-                user.setPhoneNumber(user.getPhoneNumber());
+                value = user;
+              //  user.setFirstName(user.getFirstName());
+                //user.setLastName(user.getFirstName());
+                //user.setEmail(user.getEmail());
+                //user.setPhoneNumber(user.getPhoneNumber());
                 return value;
             }
         }
@@ -74,6 +76,19 @@ public class UserRepositoryImpl implements UserRepository{
 
         return allUsers;
     }
+
+    @Override
+    public User findByEmail(String email) {
+        for( var user: users){
+            if(user.getEmail().equalsIgnoreCase(email)){
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+
 
     @Override
     public Contact addContact(Contact contact) {

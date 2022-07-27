@@ -13,5 +13,6 @@ public interface UserRepository {
     User findById(int id);
     int count();
      List<User> findAll();
+     User findByEmail(String email);
      Contact addContact(Contact contact);
 }
