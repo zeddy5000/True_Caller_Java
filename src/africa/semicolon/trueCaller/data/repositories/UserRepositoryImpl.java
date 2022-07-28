@@ -2,7 +2,6 @@ package africa.semicolon.trueCaller.data.repositories;
 
 import africa.semicolon.trueCaller.data.models.Contact;
 import africa.semicolon.trueCaller.data.models.User;
-import africa.semicolon.trueCaller.services.UserExistsException;
 
 import java.util.ArrayList;
 import java.util.List;

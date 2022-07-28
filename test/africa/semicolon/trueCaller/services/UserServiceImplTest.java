@@ -4,6 +4,7 @@ import africa.semicolon.trueCaller.data.repositories.UserRepository;
 import africa.semicolon.trueCaller.data.repositories.UserRepositoryImpl;
 import africa.semicolon.trueCaller.dtos.requests.AddContactRequest;
 import africa.semicolon.trueCaller.dtos.requests.RegisterRequest;
+import africa.semicolon.trueCaller.exceptions.UserExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
     private UserService userService;
+    private UserRepository userRepository;
+    private ContactService contactService;
 
     @BeforeEach
     void setUp(){
-         userService = new UserServiceImpl();
-
-
-
-
+        contactService = new ContactServiceImpl();
+        userRepository = new UserRepositoryImpl();
+         userService = new UserServiceImpl(contactService,userRepository);
     }
 
 
@@ -72,16 +73,16 @@ class UserServiceImplTest {
         request.setPhoneNumber("0705");
         request.setEmail("zeddy@gmail");
         request.setPassword("12345");
-        //when i try to register user
         userService.register(request);
+
         AddContactRequest addContactRequest = new AddContactRequest();
         addContactRequest.setFirstName("Sammy");
         addContactRequest.setLastName("Isu");
         addContactRequest.setEmail("sammy@gmail.com");
         addContactRequest.setPhoneNumber("07051875928");
-        addContactRequest.setUserEmail("zeddy5000@gmail");
+        addContactRequest.setUserEmail(request.getEmail());
         userService.addContact(addContactRequest);
-
+        assertEquals(1,userService.findContactsBelongingto("zeddy@gmail").size());
 
     }
 
