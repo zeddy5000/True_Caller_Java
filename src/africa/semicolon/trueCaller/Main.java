@@ -1,17 +1,22 @@
 package africa.semicolon.trueCaller;
 
 import africa.semicolon.trueCaller.controller.UserController;
+import africa.semicolon.trueCaller.data.models.Contact;
 import africa.semicolon.trueCaller.dtos.requests.AddContactRequest;
 import africa.semicolon.trueCaller.dtos.requests.RegisterRequest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
 import java.util.Scanner;
-
+@SpringBootApplication
 public class Main {
     private static final Scanner keyBoardInput = new Scanner(System.in);
     private static UserController userController = new UserController();
     public static void main(String[] args) {
         // prompt user with menu
         //if user selects a,b,c,d direct them
+        SpringApplication.run(Main.class,args);
         mainMenu();
     }
 
@@ -54,20 +59,23 @@ public class Main {
     private static void findContactBelongingToUser() {
         var contacts = userController.findContactBelongingTo(input("Enter your email"));
         for (var contact : contacts){
-            display(contact.toString());
+            System.out.println(contact);
         }
-        contacts.forEach(contact -> display(contact.toString()));
+     //   contacts.forEach(contact -> display(contact.toString()));
         mainMenu();
+
     }
 
     private static void addContactToUser() {
         AddContactRequest addContactRequest = new AddContactRequest();
         addContactRequest.setFirstName(input("Enter firstName"));
-        addContactRequest.setLastName("Enter contact's lastname");
-        addContactRequest.setEmail("Enter contact's email");
-        addContactRequest.setPhoneNumber("Enter contacts phonenumber");
-        addContactRequest.setUserEmail("Enter your email");
+        addContactRequest.setLastName(input("Enter contact's lastname"));
+        addContactRequest.setEmail(input("Enter contact's email"));
+        addContactRequest.setPhoneNumber(input("Enter contacts phonenumber"));
+        addContactRequest.setUserEmail(input("Enter your email"));
         userController.addContact(addContactRequest);
+        System.out.println("contact sucessfully added");
+        System.out.println();
         mainMenu();
     }
 }
